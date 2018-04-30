@@ -19,30 +19,33 @@ def GetPossibleMoves(game_state):
 	return p
 
 def GetNewGameState(game_state,move):
-        l=len(game_state);
-	h=np.zeros((l+1,l+1))
-	h=h.astype(int)	
-	k=h.tolist()
+    l=len(game_state);
+    h=np.zeros((l+1,l+1))
+    h=h.astype(int)	
+    k=h.tolist()
 #	print k
 #	indices
-	for i in range(len(game_state)):
-		for j in range(len(game_state)):
-			k[i][j]=game_state[i][j]
+    for i in range(len(game_state)):
+        for j in range(len(game_state)):
+            k[i][j]=game_state[i][j]
 	
-	k[move[0]-1][l] = 1
-	k[l][move[0]-1] = 1
-	k[move[1]-1][l] = 1
-	k[l][move[1]-1] = 1	
-	print k	
+    k[move[0]-1][l] = 1
+    k[l][move[0]-1] = 1
+    k[move[1]-1][l] = 1
+    k[l][move[1]-1] = 1	
+    print k	
 
-	return k
+    return k
 	
 def GetBestMove(game_state, player,depth, cur_depth):
 #	Ndegrees =degrees[:]
 #	Nindices =indices[:]
 #	Nlive_nodes=live_nodes[:]
     possible_moves= GetPossibleMoves(game_state)
-    best_move = possible_moves[0]	    
+    if isTerminalState(game_state)==0:
+        best_move = possible_moves[0]	    
+    else:
+        return (-1,-1)
     l=len(game_state)
     if player==1:
         best=-1*3*l
@@ -95,10 +98,14 @@ def main():
     live_nodes= GetLiveNodes(game_state)
     result = GetBestMove(game_state,-1, depth,0)
     print result[0]
+
+def GetMove(game_state):
+  
+    result = GetBestMove(game_state,-1, depth,0)
+  #  print result[0]
+    return result[0]
+    
 if __name__ == "__main__":
     main()
-
-
-
 
                 
